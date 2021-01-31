@@ -1,0 +1,61 @@
+﻿@model Filmellato.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Új dolgozó regisztrálása";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Dolgozói fiók létrehozása</h4>
+    <hr />
+    //@Html.ValidationSummary("", new { @class = "text-danger" })
+    //Validation error on the top of the form as well
+    @Html.ValidationSummary(true, "Kérlek javítsd ki a következő hibákat:");
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, "E-mail:", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, "Jelszó:", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, "Jelszó megerősítése:", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.IdentityCard, "SZIG. szám:", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.IdentityCard, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.IdentityCard)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, "Telefonszám:", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Regisztráció" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @*With this script we can enable client-side validation*@
+    @Scripts.Render("~/bundles/jqueryval")
+}

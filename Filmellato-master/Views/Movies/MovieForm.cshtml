@@ -1,0 +1,117 @@
+﻿@model Filmellato.ViewModels.MovieFormViewModel
+@{
+    ViewBag.Title = "Mentés";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            @*1. arg: Name of target ACTION that should be called when we POST this form*@
+            @*2. arg: Controller name*@
+            @using (Html.BeginForm("Save", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                //Html.BeginForm() >> <form>
+
+                //Validation error on the top of the form as well
+                @Html.ValidationSummary(true, "Kérlek javítsd ki a következő hibákat:");
+
+                //Bootstrap class
+                <div class="form-group">
+                    @*Lambda >> specifies the name of the target property in the model use in
+                this form >> model = Customer (up) >> Label for the textbox that specifies
+                the customer's name*@
+                    @Html.LabelFor(m => m.Name, "Név:")
+
+                    @*Lambda's second argument is an anonymus object for HTML attributes
+                form-control >> modern looking by Bootstrap*@
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Director, "Rendező:")
+                    @Html.TextBoxFor(m => m.Director, new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.Director)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ReleaseDate, "Bemutatás dátuma:")
+                    @Html.TextBoxFor(m => m.ReleaseDate, Model.ReleaseDate.Value.ToString("yyyy-MM-dd"), new { @class = "form-control" }) @*{0:d MMM yyyy}*@
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.ReleaseDate)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LengthInMinutes, "Hossz percben megadva:")
+                    @Html.TextBoxFor(m => m.LengthInMinutes, new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.LengthInMinutes)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.GenreId, "Fajta:")
+
+                    @*Second argument has to be the list of our Membership Types >>
+
+                SelectList() >> ASP.NET's initialization for Dropdown lists
+                >> first argument is the list of items, second is the name of the
+                property in MembershipType class that holds the value for each item,
+                the third argument is the property that holds the text for each item
+
+                The "Select Membership Type" argument between the two Anonymus object
+                will be the first row on the top of the Dropdown list*@
+                    @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "GenreName"), "Válaszd ki a film fajtáját", new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.GenreId)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ShortDescription, "Rövid leírás:")
+                    @Html.TextAreaFor(m => m.ShortDescription, new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.ShortDescription)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NumberInStock, "Elérhetőség:")
+                    @Html.TextBoxFor(m => m.NumberInStock, new { @class = "form-control" })
+
+                    @*Validation message placeholder*@
+                    @Html.ValidationMessageFor(m => m.NumberInStock)
+                </div>
+
+                <div class="form-group">
+                    <label for="file">Fénykép feltöltése (ajánlott: 1200x800, maximum 1MB)</label>
+                    <input type="file" name="ImagePath" />
+                </div>
+
+                //Hidden field for the CustomerId
+                @Html.HiddenFor(m => m.Id)
+
+                //CSRF
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn btn-primary">Mentés</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    @*With this script we can enable client-side validation*@
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

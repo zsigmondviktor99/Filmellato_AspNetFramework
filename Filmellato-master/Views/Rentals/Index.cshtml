@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Bérlések";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bérlések</h2>
+
+<a href="/rentals/new" class="btn btn-primary">Bérlés hozzáadása</a>
+<br />
+<br />
+
+<table id="rentals" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ügyfél</th>
+            <th>Kibérelt film</th>
+            <th>Bérlés dátuma</th>
+            <th>Filmet kiadta</th>
+            <th>Visszahozás dátuma</th>
+            <th>Filmet visszavette</th>
+            <th>Visszavétel</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#rentals").DataTable({
+                ajax: {
+                    url: "/api/newRentals",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "id",
+                    },
+                    {
+                        data: "customer.name"
+                    },
+                    {
+                        data: "movie.name"
+                    },
+                    {
+                        data: "dateRented",
+                        render: function (data) {
+                            return new Date(data).toLocaleDateString();
+                        }
+                    },
+                    {
+                        data: "userMakeRental"
+                    },
+                    {
+                        data: "dateReturned",
+                        render: function (data) {
+                            if (data != null) {
+                                return new Date(data).toLocaleDateString();
+                            }
+                            else {
+                                return "";
+                            }
+                        }
+                    },
+                    {
+                        data: "userReturnRental"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn btn-link js-return' data-rental-id=" + data + ">Visszavétel</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#rentals").on("click", ".js-return", function () {
+                var button = $(this);
+                //We call our API here
+
+                //If user clicks Ok
+                bootbox.confirm("Biztosan vissza akarod venni a filmet?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/newRentals/" + button.attr("data-rental-id"),
+                            method: "PUT",
+                            success: function () {
+                                table.ajax.reload();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>    
+}

@@ -1,0 +1,40 @@
+﻿@*@model Filmellato.ViewModels.RandomMovieViewModel*@
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Filmellátó</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body id="top">
+    @*NavBar link (Views >> Shared >> _NavBar.cshtml)*@
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("CanManageMovies"))
+        {
+            @Html.Partial("_NavBarAdmin")
+        }
+        else
+        {
+            @Html.Partial("_NavBar"@*, Model.Movie*@)
+        }
+    }
+    else
+    {
+        @Html.Partial("_NavBarNonAuthorized")
+    }
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @*Footer link (Views >> Shared >> _Footer.cshtml)*@
+    @Html.Partial("_Footer")
+
+    @Scripts.Render("~/bundles/lib")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "New Rental Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Rental Form</h2>
+<form id="newRental">
+    @*div.form-group>label+input[type='text'].form-control*@
+    <div class="form-group">
+        <label>Customer</label>
+
+        @*To put input under the label*@
+        <div class="tt-container">
+            <input id="customer" name="customer" data-rule-validcustomer="true" required type="text" value="" class="form-control" />
+        </div>
+    </div>
+
+    @*div.form-group>label+input[type='text'].form-control*@
+    <div class="form-group">
+        <label>Movie</label>
+
+        @*To put input under the label*@
+        <div class="tt-container">
+            <input id="movie" name="movie" data-rule-atleastonemovie="true" type="text" value="" class="form-control" />
+        </div>
+    </div>
+
+    @*ul#movies.list-group*@
+    @*div.row>div.col-sm-4*@
+    <div class="row">
+        <div class="col-sm-4">
+            <ul id="movies" class="list-group">
+                @*Movie <li></li> items come here*@
+            </ul>
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
+</form>
+
+@section scripts
+{
+    @*With this script we can enable client-side validation*@
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            var vm = {
+                movieIds: []
+            };
+
+            //Customers
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/customers',
+                    cache: false
+                }
+
+                //With this code Typeahead does not update
+                /*remote: {
+                    url: '/api/customers?query=%QUERY',
+                    wildcard: '%QUERY'
+                }*/
+            });
+            $('#customer').typeahead({
+                //Queries after 3 characters
+                minLength: 3,
+
+                //Highlight match
+                highlight: true
+            }, {
+                name: 'customers',
+                display: 'name',
+                source: customers
+                //Store customer              //e >> event, customer >> selected customer
+            }).on("typeahead:select", function (e, customer) {
+                //Submit >> send vm to API
+                vm.customerId = customer.id;
+            });
+
+            //Movies
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: '/api/movies',
+                    cache: false
+                }
+
+                //With this code Typeahead does not update
+                /*remote: {
+                    url: '/api/movies?query=%QUERY',
+                    wildcard: '%QUERY'
+                }*/
+            });
+            $('#movie').typeahead({
+                //Queries after 3 characters
+                minLength: 3,
+
+                //Highlight match
+                highlight: true
+            }, {
+                name: 'movies',
+                display: 'name',
+                source: movies
+                //Store customer                  //e >> event, movie >> selected movie
+            }).on("typeahead:select", function (e, movie) {
+                //#movies >> <ul>, make list of rented movies
+                $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
+
+                //1 >> Clear textbox after the selection
+                //1/1. argument >> property that we want to update
+                //1/2. argument >> value
+                $("#movie").typeahead("val", "");
+
+                //2 >> Store this movie in our vm so we can send it to the server later
+                vm.movieIds.push(movie.id);
+            });
+
+            //Custom validator >> validate that the user choose a Customer from the list
+            $.validator.addMethod("validcustomer", function () {
+                //customerId is not null and != 0
+                return vm.customerId && vm.customerId !== 0;
+            }, "Please select a valid customer.");
+
+            //Custom validator >> validate that the user choose at least one Movie
+            $.validator.addMethod("atleastonemovie", function () {
+                return vm.movieIds.length > 0;
+            }, "Please select at least one movie.");
+
+            //Submitting Form (newRental) with validation
+            var validator = $("#newRental").validate({
+                submitHandler: function () {
+                    //Using AJAX (like in List.cshtml with rendering the table with data from Movies API)
+                    $.ajax({
+                        url: "/api/newRentals",
+                        method: "post",
+                        data: vm    //CustomerId + MovieIds just like our NewRentalDto
+                    })
+                    .done(function () {
+                        //Success
+                        toastr.success("Rentals are successfully recorded.");
+
+                        //Clear Form
+                        $("#customer").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+
+                        //Reset vm
+                        vm = { movieIds: [] };
+
+                        validator.resetForm();
+                    })
+                    .fail(function () {
+                        //Fail
+                        toastr.error("Something unexpected happened.");
+                    });
+
+                    return false;
+                }
+            });
+        });
+    </script>
+}
+

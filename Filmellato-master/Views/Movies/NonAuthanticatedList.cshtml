@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Filmek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Filmek</h2>
+<br />
+<br />
+
+<table id="movies" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Cím</th>
+            <th>Bemutatás dátuma</th>
+            <th>Hossz</th>
+            <th>Fajta</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        //When the DOM is fully loaded
+        $(document).ready(function () {
+            //VIEW
+            //Referenece to our movies <table> and call DataTable function
+            //The simpliest way to use DataTable Plug-in
+            var table = $("#movies").DataTable({
+                //Configuration object >> to make Movies API the source of data
+                ajax: {
+                    url: "/api/movies",
+
+                    /*The response we get from our API is an array of objects >>
+                    the array itself is the actual source of data, and our DataTable
+                    does not need to go an other object to get it >> dataSrc is an
+                    empty string*/
+                    dataSrc: ""
+                },
+                //Columns >> our datas come in JSON from our API in an Array
+                columns: [
+                    //Every column is an object
+                    @*{
+                        data: "id",
+                    },*@
+                    {
+                        data: "name",
+                        render: function (data, type, movie) {
+                            return "<a href='/movies/details/" + movie.id + "'>" + data + "</a>";
+                        }
+                    },
+                    {
+                        data: "releaseDate",
+                        render: function (data) {
+                            return new Date(data).toLocaleDateString();
+                        }
+                    },
+                    {
+                        data: "lengthInMinutes"
+                    },
+                    {
+                        data: "genre.genreName"
+                    }
+                ]
+            });
+        });
+    </script>
+}

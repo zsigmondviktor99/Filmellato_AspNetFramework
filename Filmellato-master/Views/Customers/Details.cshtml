@@ -1,0 +1,91 @@
+﻿@model Filmellato.ViewModels.CustomerDetailViewModel
+@{ 
+    ViewBag.Title = Model.Customer.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .img-fluid {
+        width: 20%;
+        margin-bottom: 3%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1><u><b>@Model.Customer.Name</b></u></h1>
+
+            <img src="@Model.Customer.ImagePath" alt="@Model.Customer.Name" title="@Model.Customer.Name" class="img-thumbnail visible-xs-block visible-sm-block" />
+            <img src="@Model.Customer.ImagePath" alt="@Model.Customer.Name" title="@Model.Customer.Name" class="img-thumbnail img-fluid visible-md-block visible-lg-block" />
+
+            <h2><b>Születési idő: </b>@Model.Customer.BirthDate.Value.ToShortDateString()</h2>
+            <h2><b>Cím: </b>@Model.Customer.Address</h2>
+            <h2><b>E-mail: </b>@Model.Customer.Email</h2>
+            <h2><b>Telefonszám: </b>@Model.Customer.PhoneNumber</h2>
+            <h2><b>SZIG. szám: </b>@Model.Customer.IdentityCard</h2>
+            <h2><b>Tagság típusa: </b>@Model.Customer.MembershipType.MembershipName</h2>
+            <h2>
+                <b>Hirlevél feliratkozás: </b>
+                @if (Model.Customer.IsSubscribedToNewsletter == true)
+                {
+        <span>Igen</span> }
+    else
+    {
+        <span>Nem</span>}
+            </h2>
+            <h2>
+                <b>Blokkolva van-e: </b>
+                @if (Model.Customer.IsBlocked == true)
+                {
+        <span>Igen</span> }
+    else
+    {
+        <span>Nem</span>}
+            </h2>
+
+                @{
+                if (Model.RentedMovies.Count > 0)
+                {
+                        <h2><b>Éppen kibérelt filmek (@Model.Customer.NumberOfCurrentlyRentedMovies db):</b></h2>
+                        <ul>
+                            @foreach (var m in Model.RentedMovies)
+                            {
+                                <li><h4><a href="@m.Url">@m.Name</a></h4></li>
+                            }
+                        </ul>
+
+                        <br />
+                }
+                }
+
+                @{
+                if (Model.RecommendedMovies.Count > 0)
+                {
+                    <h2><b>Ajánlott filmek:</b></h2>
+                    <ul>
+                        @foreach (var m in Model.RecommendedMovies)
+                        {
+                            <li><h4><a href="@m.Url">@m.Name</a></h4></li>
+                        }
+                    </ul>
+
+                    <br /><br />
+                }
+                }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (User.Identity.IsAuthenticated)
+            {
+            <a href="/customers/edit/@Model.Customer.Id" class="btn btn-primary">Ügyfél adatainak módosítása</a>
+                <br /><br />
+            }
+            <a href="/customers" class="btn btn-primary">Vissza az ügyfelek listájához</a>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Filmellato.Models.Movie>
+@{
+    ViewBag.Title = "Filmek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Filmek</h2>
+<a href="/movies/new" class="btn btn-primary">Film hozzáadása</a>
+<br /><br />
+
+<table id="movies" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Cím</th>
+            <th>Fajta</th>
+            <th>Elérhetőség</th>
+            <th>Módosítás</th>
+            <th>Törlés</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var movie in Model)
+        {
+        <tr>
+                                             Details
+            <td>@Html.ActionLink(@movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
+            <td>@movie.Genre.GenreName</td>
+        </tr>
+        }*@
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        //When the DOM is fully loaded
+        $(document).ready(function () {
+            //VIEW
+            //Referenece to our movies <table> and call DataTable function
+            //The simpliest way to use DataTable Plug-in
+            var table = $("#movies").DataTable({
+                //Configuration object >> to make Movies API the source of data
+                ajax: {
+                    url: "/api/movies",
+
+                    /*The response we get from our API is an array of objects >>
+                    the array itself is the actual source of data, and our DataTable
+                    does not need to go an other object to get it >> dataSrc is an
+                    empty string*/
+                    dataSrc: ""
+                },
+                //Columns >> our datas come in JSON from our API in an Array
+                columns: [
+                    //Every column is an object
+                    {
+                        data: "id",
+                    },
+                    {
+                        /*data >> Tell DataTable plug-in where to get data for this column
+
+                        With this configuration DataTable will look at this property
+                        (name) of the Movie object and use that as plain text
+                        to render each row*/
+                        data: "name",
+
+                        //To make name a link
+                        //data >> value of name property from Movie object
+                        //type >> (addittional)
+                        //customer >> (addittional) actual object (row) we rendering
+                        render: function (data /*data parameter >> name*/, type, movie) {
+                            return "<a href='/movies/details/" + movie.id + "'>" + data + "</a>";
+                        }
+                    },
+                    {
+                        /*Movie DTO does not have Genre >>
+                        create GenreDto and MovieDto can use it >>
+                        GenreDto only has Id and GenreName, we don not need more*/
+                        data: "genre.genreName"
+                    },
+                    {
+                        data: "numberAvailable"
+                    },
+                    {
+                        data: "id",
+                        render: function (data /*data parameter >> name*/, type, movie) {
+                            return "<a href='/movies/edit/" + movie.id + "'>Módosítás</a>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function (data /*data paramater >> id*/) {
+                            return "<button class='btn-link js-delete' data-movie-id=" + data + ">Törlés</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            //DATA ACCESS
+            //movies table (#id) >> all elements with class js-delete
+            //.on("click", ...) >> click event
+            $("#movies").on("click", ".js-delete", function () {
+                var button = $(this);
+                //We call our API here
+
+                //If user clicks Ok
+                bootbox.confirm("Biztosan törölni akarod a filmet?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/movies/" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            success: function () {
+                                //We delete our movie here (DB and DOM to <tr> (complete row))
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                        .done(function () {
+                            //Success
+                            toastr.success("Film sikeresen törölve.");
+                        })
+                        .fail(function () {
+                            //Fail
+                            toastr.error("Nem törölhetsz filmet, ameddig van belőle kibérelve.");
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

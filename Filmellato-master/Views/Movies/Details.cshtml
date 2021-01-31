@@ -1,0 +1,50 @@
+﻿@model Filmellato.Models.Movie
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .img-fluid {
+        width: 100%;
+        display: block;
+        margin: 10% auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h1><u><b>@Model.Name</b></u></h1>
+
+            <h2><b>Cím: </b>@Model.Name</h2>
+
+            <h2><b>Rendező: </b>@Model.Director</h2>
+
+            <h2><b>Bemutatás dátuma: </b>@Model.ReleaseDate.ToShortDateString()</h2>
+
+            <h2><b>Hossz: </b>@Model.LengthInMinutes perc</h2>
+
+            <h2><b>Fajta: </b>@Model.Genre.GenreName</h2>
+
+            <h2><b>Rövid leírás: </b></h2>
+            <h3 class="text-justify">@Model.ShortDescription</h3>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <img src="@Model.ImagePath" alt="@Model.Name" title="@Model.Name" class="img-thumbnail img-fluid" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (User.IsInRole("CanManageMovies"))
+            {
+                <a href="/movies/edit/@Model.Id" class="btn btn-primary">Film adatainak módosítása</a>
+                <br /><br />
+            }
+            <a href="/movies" class="btn btn-primary">Vissza a filmek listájához</a>
+        </div>
+    </div>
+</div>

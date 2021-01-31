@@ -1,0 +1,49 @@
+﻿@using Filmellato.Models
+@model Filmellato.ViewModels.RandomMovieViewModel
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--ViewData.Model megoldas >> LEGJOBB-->
+@*
+    A model most a ViewModels >> RandomMovieViewModel, amiben van
+    letrehozva Movie valtozo, ami Movie tipusu, aminek van Name
+    propertyje, ezert mukodik
+*@
+@{ 
+    /*
+        Ha tobb, mint 5 ember kiberelte mar a filmet, akkor a className tartalma
+        popular lesz, amugy ures marad >> meghivhatjuk HTML class-nak, es ha a
+        popular a tartalom, akkor valtozik a kinezet, amugy meg nem
+    */
+    var className = Model.Customers.Count > 0 ? "popular" : null;
+}
+
+@*class="kukac className" >> az elozo code blockban letrehozott valtozot haszn.*@
+<h2 class="@className">@Model.Movie.Name</h2>
+
+@if (Model.Customers.Count == 0)
+{
+    <p>No one has rented this movie before.</p>
+}
+else
+{
+    <p>Renters from the past:</p>
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            //C# code vagy HTML, mind a 2 mukodik >> a beepitett RazorViewSyntax ossze tudja fuzni
+            //@ >> C# code!!!!!
+            <li>@customer.Name</li>
+        }
+    </ul>
+}
+
+
+
+@*
+ViewData es ViewBag megoldasok, ROSSZAK
+<h2>@( ((Movie) ViewData["Movie"]).Name)</h2>
+<h2>@( ((Movie) ViewBag.Movie).Name)</h2>
+*@

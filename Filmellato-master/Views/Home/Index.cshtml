@@ -1,0 +1,146 @@
+﻿@using Filmellato.Dtos;
+@model Filmellato.ViewModels.IndexMoviesViewModel
+
+@{ ViewBag.Title = "Főoldal"; }
+
+<span></span>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center"><b><u>Szia! Ez itt a Filmellátó.</u></b></h1>
+            <p class="lead text-center">A Filmellátó egy olyan retro "videotéka", ahol filmeket bérelhetsz könnyen és gyorsan, mint a régi szép időkben.</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <h3 class="text-center">Filmet szeretnél bérelni?</h3>
+            <p class="lead text-center"><a href="/Home/Contact">Lépj velünk kapcsolatba</a>.</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <h3 class="text-center">Több információra van szükséged az árakkal kapcsolatban?</h3>
+            <p class="lead text-center">Ez esetben nézz rá az <a href="/Home/About">árlistánkra</a>.</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <h3 class="text-center">Miért válassz minket?</h3>
+            <p class="lead text-center">Mert nálunk minden kedvenc filmedet megtalálod. </p>
+            @{ if (Model.movies != null)
+                {
+                    <p class="lead text-center">Néhányat akár itt is:</p>
+                }
+             }
+
+            <br /><br />
+        </div>
+
+        @{ if (Model.movies != null)
+            {
+                if (Model.freshestFour != null)
+                {
+                    <h2 class="text-center"><b>Legújabbak a kínálatunkban:</b></h2>
+                    foreach (IndexMovieDto m in Model.freshestFour)
+                    {
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card card-default">
+                                <a href="@m.Url" class="card-link">
+                                    <span class="card-img">
+                                        <img src="@m.ImagePath" class="img-responsive">
+                                    </span>
+                                    <span class="card-body">
+                                        <span class="h4 heading">@m.Name</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                if (Model.familyFour != null)
+                {
+                    <h2 class="text-center"><b>Filmek az egész családnak:</b></h2>
+                    foreach (IndexMovieDto m in Model.familyFour)
+                    {
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card card-default">
+                                <a href="@m.Url" class="card-link">
+                                    <span class="card-img">
+                                        <img src="@m.ImagePath" class="img-responsive">
+                                    </span>
+                                    <span class="card-body">
+                                        <span class="h4 heading">@m.Name</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                if (Model.romanticFour != null)
+                {
+                    <h2 class="text-center"><b>Randiestekhez:</b></h2>
+                    foreach (IndexMovieDto m in Model.romanticFour)
+                    {
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card card-default">
+                                <a href="@m.Url" class="card-link">
+                                    <span class="card-img">
+                                        <img src="@m.ImagePath" class="img-responsive">
+                                    </span>
+                                    <span class="card-body">
+                                        <span class="h4 heading">@m.Name</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                if (Model.horrorFour != null)
+                {
+                    <h2 class="text-center"><b>Estére a haverokkal:</b></h2>
+                    foreach (IndexMovieDto m in Model.horrorFour)
+                    {
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card card-default">
+                                <a href="@m.Url" class="card-link">
+                                    <span class="card-img">
+                                        <img src="@m.ImagePath" class="img-responsive">
+                                    </span>
+                                    <span class="card-body">
+                                        <span class="h4 heading">@m.Name</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                if (Model.funnyFour != null)
+                {
+                    <h2 class="text-center"><b>Lusta vasárnapokhoz:</b></h2>
+                    foreach (IndexMovieDto m in Model.funnyFour)
+                    {
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card card-default">
+                                <a href="@m.Url" class="card-link">
+                                    <span class="card-img">
+                                        <img src="@m.ImagePath" class="img-responsive">
+                                    </span>
+                                    <span class="card-body">
+                                        <span class="h4 heading">@m.Name</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <h2 class="text-center"><b><a href="/Movies">Összes film</a></b></h2>
+            }
+
+            else
+            {
+                <h2 class="text-center"><b>Filmjeink feltöltés alatt állnak.</b></h2>
+            }
+        }
+
+        <h2 class="text-center"><b><a href="#top">Fel az oldal tetejére</a></b></h2>
+    </div>
+</div>
