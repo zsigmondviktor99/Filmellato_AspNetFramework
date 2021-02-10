@@ -58,7 +58,8 @@
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: {
-                    url: '/api/customers',
+                    //url: '/api/customers',
+                    url: '/api/customers/notBlockedCustomers',
                     cache: false
                 }
 

@@ -27,7 +27,7 @@ namespace Filmellato.Controllers.Api
         #endregion
 
         #region Actions
-        //GET: /rentals
+        //GET: /api/newRentals
         public IHttpActionResult GetRentals()
         {
             var rentals = _context.Rentals.Include(r => r.Customer).Include(r => r.Movie).ToList();

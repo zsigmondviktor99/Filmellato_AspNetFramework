@@ -15,7 +15,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h1><u><b>@Model.Customer.Name</b></u></h1>
+            @{ 
+                if (Model.Customer.IsBlocked == true)
+                {
+                    <h1 style="color: red;"><u><b>@Model.Customer.Name</b></u></h1>
+                }
+                else
+                {
+                    <h1><u><b>@Model.Customer.Name</b></u></h1>
+                }
+            }
 
             <img src="@Model.Customer.ImagePath" alt="@Model.Customer.Name" title="@Model.Customer.Name" class="img-thumbnail visible-xs-block visible-sm-block" />
             <img src="@Model.Customer.ImagePath" alt="@Model.Customer.Name" title="@Model.Customer.Name" class="img-thumbnail img-fluid visible-md-block visible-lg-block" />

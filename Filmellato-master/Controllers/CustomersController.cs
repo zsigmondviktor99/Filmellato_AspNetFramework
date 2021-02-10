@@ -173,7 +173,7 @@ namespace Filmellato.Controllers
                 var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
                 customerInDb.IsBlocked = customer.IsBlocked;
 
-                if (customerInDb.IsBlocked == true)
+                /*if (customerInDb.IsBlocked == true)
                 {
                     //Ha a felhasznalo blokkolva van, de a neve nem tartalmazza a (Blocked) feliratot
                     if (customer.Name.Contains(" (Blokkolva)") == false)
@@ -197,7 +197,7 @@ namespace Filmellato.Controllers
                         }
                         customer.Name = customer.Name.Trim();
                     }
-                }
+                }*/
 
                 customerInDb.Name = customer.Name;
                 customerInDb.BirthDate = customer.BirthDate;

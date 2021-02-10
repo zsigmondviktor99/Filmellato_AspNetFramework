@@ -48,6 +48,26 @@ namespace Filmellato.Controllers.Api
             return Ok(customerDtos);
         }
 
+        //Uj berles letrehozasanal a Customer-ek listajat ezen az API-n, ezen az action-on keresztul eri el a Typeahed, hogy a blokkolt felhasznalok ne jelenjenek meg
+        [Route("api/customers/notBlockedCustomers")]
+        public IHttpActionResult GetNotBlockedCustomers(string query = null)
+        {
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType)
+                .Where(x => !x.IsBlocked);
+
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+            }
+
+            var customerDtos = customersQuery
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customerDtos);
+        }
+
         [HttpDelete]
         public IHttpActionResult DeleteCustomer(int id)
         {

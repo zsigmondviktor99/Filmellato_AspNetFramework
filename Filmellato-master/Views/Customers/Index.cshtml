@@ -37,6 +37,7 @@
         <tr>
             <th>Id</th>
             <th>Ügyfél</th>
+            <th>Blokkolva</th>
             <th>Tagság</th>
             <th>Bérelt filmek</th>
             <th>Módosítás</th>
@@ -98,6 +99,17 @@
                         //customer >> (addittional) actual object (row) we rendering
                         render: function (data /*data parameter >> name*/, type, customer) {
                             return "<a href='/customers/details/" + customer.id + "'>" + data + "</a>";
+                        }
+                    },
+                    {
+                        data: "isBlocked",
+                        render: function (data) {
+                            if (data) {
+                                return "<b style='color: red;'>Igen</b>";
+                            }
+                            else {
+                                return "Nem";
+                            }
                         }
                     },
                     {
