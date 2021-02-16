@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,7 +24,7 @@ namespace Filmellato.Models
             //Not a PayAsYouGo and empty BirthDate field 
             if (customer.BirthDate == null)
                 //Validation error
-                return new ValidationResult("Birthdate is required.");
+                return new ValidationResult("Születési dátum megadása kötelezõ!");
 
             //Not a PayAsYouGo and under 18
             //BirthDate .VALUE >> because BirthDate is nullable
@@ -32,7 +32,7 @@ namespace Filmellato.Models
 
             return (age >= 18) 
                 ? ValidationResult.Success 
-                : new ValidationResult("Customer should be at least 18 years old to go on a membership.");
+                : new ValidationResult("Az ügyfélnek be kell töltenie a 18. életévét a tagsághoz.");
         }
     }
 }
