@@ -24,18 +24,23 @@
         </tr>
     </thead>
     <tbody>
-
+        @*Helytarto a DataTable plugin szamara*@
     </tbody>
 </table>
 
 @section scripts{
     <script>
+        //Amikor a DOM teljesen betoltott
         $(document).ready(function () {
             var table = $("#rentals").DataTable({
+                //Konfiguracios objektum >> hogy a Rentals API legyen a tablazat adatforrasa
                 ajax: {
                     url: "/api/newRentals",
+
+                    //Az adatokat objektumok tombjekent kapjuk meg
                     dataSrc: ""
                 },
+                //Oszlopok >> az adatok JSON formatumban jonnek az API-bol tomb formajaban
                 columns: [
                     {
                         data: "id",
@@ -78,11 +83,10 @@
                 ]
             });
 
+            //Adat hozzaferes
             $("#rentals").on("click", ".js-return", function () {
                 var button = $(this);
-                //We call our API here
-
-                //If user clicks Ok
+                //Ha a felhasznalo az OK-ra nyom, itt hivjuk meg az API-t
                 bootbox.confirm("Biztosan vissza akarod venni a filmet?", function (result) {
                     if (result) {
                         $.ajax({

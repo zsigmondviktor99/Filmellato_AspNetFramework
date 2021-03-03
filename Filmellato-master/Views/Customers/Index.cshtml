@@ -1,15 +1,5 @@
 ﻿@model IEnumerable<Filmellato.Models.Customer>
 @*
-    Because we get a list from the controller
-
-    Note: I've set the model for this view to IEnumerable<Customer>.
-    This is a simple interface implemented by the list class. Since
-    in this view we only want to iterate over this list, and we don't
-    need any of the operations in the List class (eg Add, Remove, etc),
-    it's better to use the IEnumerable interface, which allows use to
-    iterate over the list. If in the future, we replace the List with a
-    different data structure, as long as it is enumerable, our view code
-    will remain unchanged.
 *@
 
 @{ ViewBag.Title = "Ügyfelek";
@@ -21,17 +11,6 @@
 <br />
 <br />
 
-@*if (!Model.Any())
-    {
-        We can use DataTable plugin to render a message like this if the Array of Customers is empty from the API
-        <p>We don't have any customers yet.</p>
-    }
-    else
-    {
-        Old place of tghe table
-    }*@
-
-@*Placeholder for the DataTable*@
 <table id="customers" class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -45,59 +24,31 @@
         </tr>
     </thead>
     <tbody>
-        @*RENDERING ON THE SERVER >> NO, we are rendering from our API in <script>...</script>
-            @foreach (var customer in Model)
-            {
-                <tr>
-                                                       Details
-                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
-                    <td>@customer.MembershipType.MembershipName</td>
-                    <td>
-                        <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
-                    </td>
-                </tr>
-            }*@
+        @*Helytarto a DataTable plugin szamara*@
     </tbody>
 </table>
 
 @section scripts
 {
     <script>
-        //When the DOM is fully loaded
+        //Amikor a DOM teljesen betoltott
         $(document).ready(function () {
-            //VIEW
-            //Referenece to our customers <table> and call DataTable function
-            //The simpliest way to use DataTable Plug-in
             var table = $("#customers").DataTable({
-                //Configuration object >> to make Customers API the source of data
+                //Konfiguracios objektum >> hogy a Customers API legyen a tablazat adatforrasa
                 ajax: {
                     url: "/api/customers",
 
-                    /*The response we get from our API is an array of objects >>
-                    the array itself is the actual source of data, and our DataTable
-                    does not need to go an other object to get it >> dataSrc is an
-                    empty string*/
+                    //Az adatokat objektumok tombjekent kapjuk meg
                     dataSrc: ""
                 },
-                //Columns >> our datas come in JSON from our API in an Array
+                //Oszlopok >> az adatok JSON formatumban jonnek az API-bol tomb formajaban
                 columns: [
-                    //Every column is an object
                     {
                         data: "id",
                     },
                     {
-                        /*data >> Tell DataTable plug-in where to get data for this column
-
-                        With this configuration DataTable will look at this property
-                        (name) of the Customer object and use that as plain text
-                        to render each row*/
                         data: "name",
-
-                        //To make name a link
-                        //data >> value of name property from Customer object
-                        //type >> (addittional)
-                        //customer >> (addittional) actual object (row) we rendering
-                        render: function (data /*data parameter >> name*/, type, customer) {
+                        render: function (data, type, customer) {
                             return "<a href='/customers/details/" + customer.id + "'>" + data + "</a>";
                         }
                     },
@@ -113,9 +64,6 @@
                         }
                     },
                     {
-                        /*Customer DTO does not have MembershipType >>
-                        create MembershipTypeDto and CustomerDto can use it >>
-                        MembershipTypeDto only has Id and MembershipName, we don not need more*/
                         data: "membershipType.membershipName"
                     },
                     {
@@ -123,13 +71,13 @@
                     },
                     {
                         data: "id",
-                        render: function (data /*data parameter >> name*/, type, customer) {
+                        render: function (data, type, customer) {
                             return "<a href='/customers/edit/" + customer.id + "'>Módosítás</a>";
                         }
                     },
                     {
                         data: "id",
-                        render: function (data /*data paramater >> id*/) {
+                        render: function (data) {
                             return "<button class='btn-link js-delete' data-customer-id=" + data + ">Törlés</button>";
                         }
                     }
@@ -137,61 +85,30 @@
             });
 
 
-            //DATA ACCESS
-            //customers table (#id) >> all elements with class js-delete
-            //.on("click", ...) >> click event
+            //Adat hozzaferes
             $("#customers").on("click", ".js-delete", function () {
                 var button = $(this);
-                //We call our API here
-
-                //If user clicks Ok
+                //Ha a felhasznalo az OK-ra nyom, itt hivjuk meg az API-t
                 bootbox.confirm("Biztosan törölni akarod az ügyfelet?", function (result) {
                     if (result) {
                         $.ajax({
                             url: "/api/customers/" + button.attr("data-customer-id"),
                             method: "DELETE",
                             success: function () {
-                                //We delete our customer here (DB and DOM to <tr> (complete row))
+                                //Itt toroljuk az ugyfelet az adatbazisbol, es a DOM-bol (tablazat) is
                                 table.row(button.parents("tr")).remove().draw();
                             }
                         })
                             .done(function () {
-                                //Success
+                                //Siker
                                 toastr.success("Ügyfél sikeresen törölve.");
                             })
                             .fail(function () {
-                                //Fail
+                                //Hiba
                                 toastr.error("Nem törölhetsz ügyfelet, ha van nála kibérelt film.");
                             });
                     }
                 });
-
-                //Old code
-                //If user clicks Ok
-                /*bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
-                    if (result) {
-                        $.ajax({
-                            url: "/api/customers/" + button.attr("data-customer-id"),
-                            method: "DELETE",
-                            success: function () {
-                                //We delete our customer here (DB and DOM to <tr> (complete row))
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
-                });*/
-
-                //Older code
-                /*if (confirm("Are you sure you want to delete this customer?")) {
-                    $.ajax({
-                        url: "/api/customers/" + button.attr("data-customer-id"),
-                        method: "DELETE",
-                        success: function () {
-                            //We delete our customer here (DB and DOM to <tr> (complete row))
-                            button.parents("tr").remove();
-                        }
-                    })
-                }*/
             });
         });
     </script>

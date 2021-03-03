@@ -13,12 +13,12 @@ namespace Filmellato
     {
         public static void Register(HttpConfiguration config)
         {
-            //Using camelNotation not PascalNotation in JSON
+            //camelNotation-t hasznalunk a JSON fajlokban a PascalNotation helyett
             var settings = config.Formatters.JsonFormatter.SerializerSettings;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.Formatting = Formatting.Indented;
 
-            //Defaults
+            //Engedelyezzuk az attribute routingot
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

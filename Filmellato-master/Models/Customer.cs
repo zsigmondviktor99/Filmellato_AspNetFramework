@@ -10,7 +10,7 @@ namespace Filmellato.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's name.")]
+        [Required(ErrorMessage = "Kérem adja meg az ügyfél nevét!")]
         [StringLength(255)]
         
         public string Name { get; set; }
@@ -21,29 +21,27 @@ namespace Filmellato.Models
         public bool IsSubscribedToNewsletter { get; set; }
         public bool IsBlocked { get; set; }
 
-        //Navigation property >> navigate us to a new type
-        //Customer >> to its MembershipType
+        //Navigacios tulajdonsag >> atnavigal minket a masik tipusra (Ugyfel >> Ugyfel tagsaga)
         public MembershipType MembershipType { get; set; }
 
-        //Entity recognise this as a foreign key
-        [Required(ErrorMessage = "Please select a membership type.")]
+        //Entity ez alapjan kesziti el az idegen kulcsot
+        [Required(ErrorMessage = "Kérem adja meg a tagság típusát!")]
         public byte MembershipTypeId { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's E-mail address.")]
+        [Required(ErrorMessage = "Kérem adja meg az ügyfél e-mail címét!")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's phone number.")]
+        [Required(ErrorMessage = "Kérem adja meg az ügyfél telefonszámát!")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's address.")]
+        [Required(ErrorMessage = "Kérem adja meg az ügyfél lakcímét!")]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's identity card number.")]
+        [Required(ErrorMessage = "Kérem adja meg az ügyfél SZIG számát!")]
         public string IdentityCard { get; set; }
 
         public int NumberOfCurrentlyRentedMovies { get; set; }
 
-        //NEW
         public string ImagePath { get; set; }
 
         public Customer()

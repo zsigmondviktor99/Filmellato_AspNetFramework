@@ -17,57 +17,35 @@
         </tr>
     </thead>
     <tbody>
-        @*@foreach (var movie in Model)
-        {
-        <tr>
-                                             Details
-            <td>@Html.ActionLink(@movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
-            <td>@movie.Genre.GenreName</td>
-        </tr>
-        }*@
+        @*Helytarto a DataTable plugin szamara*@
     </tbody>
 </table>
 
 @section scripts
 {
     <script>
-        //When the DOM is fully loaded
+        //Amikor a DOM teljesen betoltott
         $(document).ready(function () {
-            //VIEW
-            //Referenece to our movies <table> and call DataTable function
-            //The simpliest way to use DataTable Plug-in
             var table = $("#movies").DataTable({
-                //Configuration object >> to make Movies API the source of data
+                //Konfiguracios objektum >> hogy a Movies API legyen a tablazat adatforrasa
                 ajax: {
                     url: "/api/movies",
 
-                    /*The response we get from our API is an array of objects >>
-                    the array itself is the actual source of data, and our DataTable
-                    does not need to go an other object to get it >> dataSrc is an
-                    empty string*/
+                    //Az adatokat objektumok tombjekent kapjuk meg
                     dataSrc: ""
                 },
-                //Columns >> our datas come in JSON from our API in an Array
+                //Oszlopok >> az adatok JSON formatumban jonnek az API-bol tomb formajaban
                 columns: [
-                    //Every column is an object
                     {
                         data: "id",
                     },
                     {
-                        /*data >> Tell DataTable plug-in where to get data for this column
-
-                        With this configuration DataTable will look at this property
-                        (name) of the Movie object and use that as plain text
-                        to render each row*/
                         data: "name",
                         render: function (data, type, movie) {
                             return "<a href='/movies/details/" + movie.id + "'>" + data + "</a>";
                         }
                     },
                     {
-                        /*Movie DTO does not have Genre >>
-                        create GenreDto and MovieDto can use it >>
-                        GenreDto only has Id and GenreName, we don not need more*/
                         data: "genre.genreName"
                     },
                     {

@@ -12,25 +12,15 @@ namespace Filmellato
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/bootbox.js",
-
-                        //Core DataTables script
-                        "~/Scripts/datatables/jquery.datatables.js",
-                        
-                        //Integrates Datatables with Bootstrap
+                        "~/Scripts/datatables/jquery.datatables.js",                       
                         "~/Scripts/datatables/datatables.bootstrap.js",
-
-                        //Toastr
                         "~/Scripts/toastr.js",
-
-                        //TypeAhead
                         "~/Scripts/typeahead.bundle.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 

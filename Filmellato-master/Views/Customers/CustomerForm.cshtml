@@ -9,27 +9,16 @@
         <div class="col-12 col-sm-6">
             <h2>@Model.Title</h2>
 
-            @*1. arg: Name of target ACTION that should be called when we POST this form*@
-            @*2. arg: Controller name*@
             @using (Html.BeginForm("Save", "Customers", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                //Html.BeginForm() >> <form>
-
-                //Validation error on the top of the form as well
+                //Validacios uzenet az oldal tetejen
                 @Html.ValidationSummary(true, "Kérlek javítsd ki a következő hibákat:");
 
-                //Bootstrap class
                 <div class="form-group">
-                    @*Lambda >> specifies the name of the target property in the model use in
-                this form >> model = Customer (up) >> Label for the textbox that specifies
-                the customer's name*@
                     @Html.LabelFor(m => m.Customer.Name, "Név:")
-
-                    @*Lambda's second argument is an anonymus object for HTML attributes
-                form-control >> modern looking by Bootstrap*@
                     @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.Name)
                 </div>
 
@@ -37,7 +26,7 @@
                     @Html.LabelFor(m => m.Customer.BirthDate, "Születési idő:")
                     @Html.TextBoxFor(m => m.Customer.BirthDate, Model.Customer.BirthDate.Value.ToString("yyyy-MM-dd"), new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.BirthDate)
                 </div>
 
@@ -45,7 +34,7 @@
                     @Html.LabelFor(m => m.Customer.Address, "Cím:")
                     @Html.TextBoxFor(m => m.Customer.Address, new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.Address)
                 </div>
 
@@ -53,7 +42,7 @@
                     @Html.LabelFor(m => m.Customer.Email, "E-mail:")
                     @Html.TextBoxFor(m => m.Customer.Email, new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.Email)
                 </div>
 
@@ -61,7 +50,7 @@
                     @Html.LabelFor(m => m.Customer.PhoneNumber, "Telefonszám:")
                     @Html.TextBoxFor(m => m.Customer.PhoneNumber, new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.PhoneNumber)
                 </div>
 
@@ -69,25 +58,15 @@
                     @Html.LabelFor(m => m.Customer.IdentityCard, "SZIG. szám:")
                     @Html.TextBoxFor(m => m.Customer.IdentityCard, new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.IdentityCard)
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Customer.MembershipTypeId, "Tagság típusa:")
-
-                    @*Second argument has to be the list of our Membership Types >>
-
-                SelectList() >> ASP.NET's initialization for Dropdown lists
-                >> first argument is the list of items, second is the name of the
-                property in MembershipType class that holds the value for each item,
-                the third argument is the property that holds the text for each item
-
-                The "Select Membership Type" argument between the two Anonymus object
-                will be the first row on the top of the Dropdown list*@
                     @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Válaszd ki a tagságot", new { @class = "form-control" })
 
-                    @*Validation message placeholder*@
+                    @*Validacios hibauzenet helytarto*@
                     @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
                 </div>
 
@@ -109,19 +88,13 @@
                     <input type="file" name="ImagePath" />
                 </div>
 
-                //Hidden field for the CustomerId
+                //Rejtett mezo a CustomerId szamara
                 @Html.HiddenFor(m => m.Customer.Id)
 
                 //CSRF
                 @Html.AntiForgeryToken()
 
                 <button type="submit" class="btn btn-primary">Mentés</button>
-
-                /*
-                End of using block >>
-                Object return from Html.BeginForm() will be DISPOSED >>
-                render </form>
-                */
             }
         </div>
     </div>
@@ -129,6 +102,6 @@
 
 @section Scripts
 {
-    @*With this script we can enable client-side validation*@
+    @*Ezzel a scriptel engedelyezzuk a kliens oldali validaciot*@
     @Scripts.Render("~/bundles/jqueryval")
 }

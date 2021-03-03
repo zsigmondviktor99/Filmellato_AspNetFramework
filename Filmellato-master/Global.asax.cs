@@ -8,7 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Filmellato.Models;
 
-//Enable Web API
+//Web API engedelyezese
 using System.Web.Http;
 using System.Web.Routing;
 
@@ -25,16 +25,16 @@ namespace Filmellato
             //MappingProfile start
             Mapper.Initialize(c => c.AddProfile<MappingProfile>());
 
-            //Enable Web API
+            //Web API engedelyezese
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            //Defaults
+            //Alapertelmezettek
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //To fix the ApplicationDbStart exception >>
+            //ApplicationDbStart exception javitasa
             Database.SetInitializer<ApplicationDbContext>(null);
         }
     }

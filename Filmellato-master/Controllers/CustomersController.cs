@@ -172,33 +172,6 @@ namespace Filmellato.Controllers
             {
                 var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
                 customerInDb.IsBlocked = customer.IsBlocked;
-
-                /*if (customerInDb.IsBlocked == true)
-                {
-                    //Ha a felhasznalo blokkolva van, de a neve nem tartalmazza a (Blocked) feliratot
-                    if (customer.Name.Contains(" (Blokkolva)") == false)
-                    {
-                        customer.Name = customer.Name + " (Blokkolva)";
-                    }
-                }
-                else
-                {
-                    //Ha a felhasznalo nincs blokkolva, de a neve tartalmazza a (Blocked) feliratot
-                    if (customer.Name.Contains(" (Blokkolva)") == true)
-                    {
-                        string[] s = customer.Name.Split(' ');
-                        customer.Name = "";
-                        foreach (var item in s)
-                        {
-                            if (item != "(Blokkolva)")
-                            {
-                                customer.Name += item + " ";
-                            }
-                        }
-                        customer.Name = customer.Name.Trim();
-                    }
-                }*/
-
                 customerInDb.Name = customer.Name;
                 customerInDb.BirthDate = customer.BirthDate;
                 customerInDb.MembershipTypeId = customer.MembershipTypeId;

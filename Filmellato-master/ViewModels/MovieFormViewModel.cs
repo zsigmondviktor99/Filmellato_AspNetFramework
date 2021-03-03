@@ -10,24 +10,9 @@ namespace Filmellato.ViewModels
 {
     public class MovieFormViewModel
     {
-        /* No List, IEnumerable >> we do not need any functionality
-        provided by the List class (add / remove / access an object by index),
-        all we need is a way to iterate over the Genres
-        
-        If later we will replace List with another collection (like Array),
-        we do not have to come back here to modify this ViewModel as long
-        as that collection implement IEnumerable*/
+        //IEnumerable >> nincs szuksegunk a listak nyujtotta funkcionalitasra
         public IEnumerable<Genre> Genres { get; set; }
 
-        /*Movie, or copy and paste their propertyes >>
-        now we will use the Movie entity, because we want to
-        use them later, and we do not need new properties,
-        but in case we need new properties required by the view, we should
-        separate the domain and view models*/
-
-        //public Movie Movie { get; set; }
-
-        //We do not use the Movie class, we put here the necessary properties
         [Required]
         public int? Id { get; set; }
 
@@ -54,10 +39,8 @@ namespace Filmellato.ViewModels
         [Required]
         public string ShortDescription { get; set; }
 
-        //NEW
         public string ImagePath { get; set; }
 
-        //Set the title on the MovieForm view
         public string Title
         {
             get
@@ -66,19 +49,18 @@ namespace Filmellato.ViewModels
             }
         }
 
-        //Constructors
-        //NEW >> we do not get a movie, we create it
+        //NEW >> nem kaptunk filmet, letrehozzuk
         public MovieFormViewModel() 
         {
-            //Make sure that in our form the Id hidden field is populated
+            //A form rejtett ID es Bemutatasi datum mezojenek adunk alaperteket
             Id = 0;
             ReleaseDate = DateTime.Parse("1900-01-01");
         }
 
-        //EDIT >> The movie argument is given by MoviesController Edit action
+        //EDIT >> kaptunk filmet, modositunk
         public MovieFormViewModel(Movie movie)
         {
-            //We set the properties here with the properties of the given movie object by Edit action from MoviesController
+            //A kapott film adataival toltjuk ki a formot
             Id = movie.Id;
             Name = movie.Name;
             Director = movie.Director;

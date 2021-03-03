@@ -10,15 +10,14 @@ namespace Filmellato.Models
     {
         public int Id { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Kérem válasszon ügyfelet!")]
         public Customer Customer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérem válasszon filmet!")]
         public Movie Movie { get; set; }
         
         public DateTime DateRented { get; set; }
         
-        //? >> nullable
         public DateTime? DateReturned { get; set; }
 
         [Required]

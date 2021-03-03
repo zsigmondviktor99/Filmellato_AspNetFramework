@@ -14,14 +14,14 @@ namespace Filmellato.App_Start
     {
         public MappingProfile()
         {
-            //Domain to DTO
+            //Domain-bol DTO
             Mapper.CreateMap<Customer, CustomerDto>();
             Mapper.CreateMap<Movie, MovieDto>();
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
             Mapper.CreateMap<Genre, GenreDto>();
             Mapper.CreateMap<Rental, NewRentalDto>();
 
-            //DTO to Domain
+            //DTO-bol Domain
             Mapper.CreateMap<CustomerDto, Customer>()
                 .ForMember(c => c.Id, opt => opt.Ignore());
             Mapper.CreateMap<MovieDto, Movie>()

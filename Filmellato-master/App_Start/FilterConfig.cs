@@ -9,10 +9,10 @@ namespace Filmellato
         {
             filters.Add(new HandleErrorAttribute());
 
-            /*To make required Authorization globally
-            filters.Add(new AuthorizeAttribute());*/
+            //Minden csak bejelentkezes utan valik elerhetove
+            //filters.Add(new AuthorizeAttribute());
 
-            //To make our website accessable only via Https
+            //Csak HTTPS-en keresztul erik el a weboldalt
             filters.Add(new RequireHttpsAttribute());
         }
     }

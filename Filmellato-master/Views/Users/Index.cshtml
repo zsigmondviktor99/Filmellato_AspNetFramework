@@ -9,7 +9,6 @@
 <br />
 <br />
 
-@*Placeholder for the DataTable*@
 <table id="users" class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -20,25 +19,25 @@
         </tr>
     </thead>
     <tbody>
+        @*Helytarto a DataTable plugin szamara*@
     </tbody>
 </table>
 
 @section scripts
 {
     <script>
-        //When the DOM is fully loaded
+        //Amikor a DOM teljesen betoltott
         $(document).ready(function () {
-            //VIEW
-            //Referenece to our users <table> and call DataTable function
-            //The simpliest way to use DataTable Plug-in
             var table = $("#users").DataTable({
+                //Konfiguracios objektum >> hogy a Users API legyen a tablazat adatforrasa
                 ajax: {
                     url: "/api/users",
+
+                    //Az adatokat objektumok tombjekent kapjuk meg
                     dataSrc: ""
                 },
-                //Columns >> our datas come in JSON from our API in an Array
+                //Oszlopok >> az adatok JSON formatumban jonnek az API-bol tomb formajaban
                 columns: [
-                    //Every column is an object
                     {
                         data: "email"
                     },
@@ -50,7 +49,7 @@
                     },
                     {
                         data: "id",
-                        render: function (data /*data paramater >> id*/) {
+                        render: function (data) {
                             return "<button class='btn-link js-delete' data-user-id=" + data + ">Törlés</button>";
                         }
                     }
@@ -58,21 +57,17 @@
             });
 
 
-            //DATA ACCESS
-            //users table (#id) >> all elements with class js-delete
-            //.on("click", ...) >> click event
+            //Adat hozzaferes
             $("#users").on("click", ".js-delete", function () {
                 var button = $(this);
-                //We call our API here
-
-                //If user clicks Ok
+                //Ha a felhasznalo az OK-ra nyom, itt hivjuk meg az API-t
                 bootbox.confirm("Biztosan törölni akarod a dolgozót?", function (result) {
                     if (result) {
                         $.ajax({
                             url: "/api/users/" + button.attr("data-user-id"),
                             method: "DELETE",
                             success: function () {
-                                //We delete our customer here (DB and DOM to <tr> (complete row))
+                                //Itt toroljuk a dolgozot az adatbazisbol, es a DOM-bol (tablazat) is
                                 table.row(button.parents("tr")).remove().draw();
                             }
                         });

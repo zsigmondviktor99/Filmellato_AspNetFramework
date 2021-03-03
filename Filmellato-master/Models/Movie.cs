@@ -10,50 +10,45 @@ namespace Filmellato.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter the movie's title.")]
+        [Required(ErrorMessage = "Kérem adja meg a film címét!")]
         [StringLength(255)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter the movie's director.")]
+        [Required(ErrorMessage = "Kérem adja meg a film rendezõjét!")]
         public string Director { get; set; }
 
-        [Required(ErrorMessage = "Please enter the movie's release date.")]
+        [Required(ErrorMessage = "Kérem adja meg a film bemutatásának dátumát!")]
         public DateTime ReleaseDate { get; set; }
 
         [Required]
         public DateTime DateAdded { get; set; }
 
-        [Required(ErrorMessage = "Please enter the movie's length in minutes.")]
-        [Range(1, 500, ErrorMessage = "The field 'Length in Minutes' must be between 1 and 500.")]
+        [Required(ErrorMessage = "Kérem adja meg a film hosszát percben!")]
+        [Range(1, 500, ErrorMessage = "A film hossza percben 1 és 500 között kell legyen!")]
         public int LengthInMinutes { get; set; }
 
-        [Required(ErrorMessage = "Please fill up the 'Number in Stuck' field.")]
-        [Range(1, 20, ErrorMessage = "The field 'Number in Stock' must be between 1 and 20.")]
+        [Required(ErrorMessage = "Kérem adja meg hány darab érhetõ el a filmbõl!")]
+        [Range(1, 20, ErrorMessage = "A darabszámnak 1 és 20 között kell lennie!")]
         public int NumberInStock { get; set; }
 
         public int NumberAvailable { get; set; }
 
-        //Navigation property >> navigate us to a new type
-        //Movie >> to its Genre
+        //Navigacios tulajdonsag >> atnavigal minket a masik tipusra (Film >> Film tipusa)
         public Genre Genre { get; set; }
 
-        //Entity recognise this as a foreign key
-        [Required(ErrorMessage = "Please select the movie's genre.")]
+        //Entity ez alapjan kesziti el az idegen kulcsot
+        [Required(ErrorMessage = "Kérem adja meg a film típusát!")]
         public int GenreId { get; set; }
 
-        [Required(ErrorMessage = "Please fill up the 'Short Description' field.")]
+        [Required(ErrorMessage = "Kérem adja meg a film rövid leírását!")]
         public string ShortDescription { get; set; }
 
-        //NEW
         public string ImagePath { get; set; }
 
 
-        //Constructor >> to fix "The conversion of a datetime2 data type to a datetime data type resulted in an out-of-range value" error
         public Movie()
         {
             DateAdded = DateTime.Now;
         }
     }
-
-    //Picking a radnom movie >> URL: /movies/random >> Movies controller Random action
 }

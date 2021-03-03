@@ -16,15 +16,6 @@ namespace Filmellato
             //Engedelyezzuk az attribute routingot
             routes.MapMvcAttributeRoutes();
 
-            /*  CONVENTION-BASED ROUTING >> regi, rossz >> helyette ATTRIBUTE ROUTING
-            routes.MapRoute(
-                name: "MoviesByReleaseDate",
-                url: "movies/released/{year}/{month}",
-                defaults: new { controller = "Movies", action = "ByReleaseDate" },
-                          new { year = @"\d{4}", month = @"\d{2}"}          //d >> digits
-                        //new { year = @"2015|2016", month = @"\d{2}"}      //>> az ev 2015 vagy 2016 kell legyen
-            );*/
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
