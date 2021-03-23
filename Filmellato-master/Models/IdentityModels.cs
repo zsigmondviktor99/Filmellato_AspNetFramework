@@ -13,7 +13,7 @@ namespace Filmellato.Models
         //Telefonszamot es SZIG szamot is eltarolunk a dolgozokrol
         [Required]
         [DataType(DataType.PhoneNumber)]
-        public string PhoneNumber { get; set; }
+        public override string PhoneNumber { get; set; }
         
         [Required]
         [StringLength(255)]

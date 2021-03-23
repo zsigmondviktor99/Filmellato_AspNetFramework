@@ -56,14 +56,14 @@ namespace Filmellato.Models
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Please enter your E-mail address.")]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Kérem adja meg az e-mail címét!")]
+        [Display(Name = "E-mail")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter your Password.")]
+        [Required(ErrorMessage = "Kérem adja meg a jelszavát!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Jelszó")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
@@ -72,28 +72,28 @@ namespace Filmellato.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Please enter your Phone Number.")]
+        [Required(ErrorMessage = "Kérem adja meg a telefonszámot!")]
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Please enter your Identity Card number.")]
+        [Required(ErrorMessage = "Kérem adja meg a SZIG számot!")]
         public string IdentityCard { get; set; }
 
-        [Required(ErrorMessage = "Please enter your E-mail address.")]
+        [Required(ErrorMessage = "Kérem adja meg az e-mail címet!")]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter your Password.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Kérem adja meg a jelszót!")]
+        [StringLength(100, ErrorMessage = "A {0} legalább {2} karakter hosszú kell legyen!", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Jelszó")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Please confirm your Password.")]
+        [Required(ErrorMessage = "Kérem adja meg a jelszót mégegyszer!")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Jelszó megerősítése")]
+        [Compare("Password", ErrorMessage = "A jelszavak nem egyeznek meg!")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -101,18 +101,18 @@ namespace Filmellato.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "A {0} legalább {2} karakter hosszú kell legyen!", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Jelszó")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Jelszó megerősítése")]
+        [Compare("Password", ErrorMessage = "A jelszavak nem egyeznek meg!")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
