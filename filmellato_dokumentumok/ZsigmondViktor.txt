@@ -1,0 +1,29 @@
+Zsigmond Viktor
+OK - A főbb fejezetek (Bevezető, Felhasználói dokumentáció, Fejlesztési dokumentáció, Tesztelési dokumentáció, Összegzés, Ábrajegyzék)
+kerüljenek új oldalra
+
+OK - Rendszerkövetelmények (5. oldal) tényleg elég hozzá a 2010-es Studio?
+
+??? - A mintaképeknél a szöveg nagyon rosszul olvasható
+
+OK - az ügyfél adatoknál ne szerepeljenek a személyes adataid (GDPR)
+
+OK - Ügyfél törlése, film bérbeadása: 1 db (szóközzel)
+
+OK - 19. oldal alja üres (), nem törhető - legyen API-n nál
+
+OK - 27. View nézet (kicsit fogalmazd át, suta)
+
+OK - 28 Entity Framework -kel
+
+OK - 30 együttműködni (egyben)
+
+OK - 30 jQuery bevezető szövege (teljes - gyakran hasznal es kenyelmes kommunikacio oke, de a masodik mondat zavaro)
+
+OK - 30 Bootstrap - elírás leegyszerűsítse
+reszponzív megjelenés (nagyon hiányzik a kulcsszó)
+
+Tesztelés
+OK - kicsit részletesebben
+(SQL injekció elleni védelem?)
+OK - Megjelenést több böngészőn is nézd megjelenés
