@@ -4,7 +4,7 @@ kerüljenek új oldalra
 
 OK - Rendszerkövetelmények (5. oldal) tényleg elég hozzá a 2010-es Studio?
 
-??? - A mintaképeknél a szöveg nagyon rosszul olvasható
+OK - A mintaképeknél a szöveg nagyon rosszul olvasható
 
 OK - az ügyfél adatoknál ne szerepeljenek a személyes adataid (GDPR)
 
